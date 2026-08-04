@@ -863,6 +863,18 @@ background-position: initial;
       <button id="bjk-modal-close" type="button" aria-label="닫기" style="background:none;border:none;font-size:24px;line-height:1;cursor:pointer;color:#666;padding:4px 6px;">&times;</button>
     </div>
     <iframe id="bjk-modal-iframe" src="about:blank" style="flex:1;width:100%;border:0;" title="1:1 진단상담 신청"></iframe>
+    <div id="bjk-modal-deposit" style="display:none;flex:1;overflow-y:auto;background:#12121c;padding:28px 22px;box-sizing:border-box;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;">
+      <div style="background:#1c1c2b;border:1px solid #2a2a3d;border-radius:16px;padding:24px 22px;">
+        <span style="display:inline-block;background:#0fd8c9;color:#0a1a1a;font-size:13px;font-weight:800;padding:5px 14px;border-radius:20px;margin-bottom:16px;">온라인 입금</span>
+        <div style="color:#fff;font-size:20px;font-weight:800;margin-bottom:6px;">우체국 100-0003-63187</div>
+        <div style="color:#9aa0b4;font-size:15px;margin-bottom:18px;">50,000원 · 예금주 조혜영(아우라세일즈)</div>
+        <div style="height:1px;background:#2a2a3d;margin-bottom:18px;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <div style="color:#e4e6ee;font-size:15px;">입금 후 카톡으로 '성함' 알려주세요 😊</div>
+          <a href="http://pf.kakao.com/_rxhZLG/chat" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#FEE500;color:#181600;font-weight:800;font-size:14px;padding:12px 18px;border-radius:24px;text-decoration:none;white-space:nowrap;">카톡 바로 보내기 →</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>(function(){
@@ -870,22 +882,40 @@ background-position: initial;
   var CAL_URL='https://calendar.google.com/calendar/appointments/schedules/AcZssZ2pRa2V5-x6gXVeRbTekylXnM_m7uO7hTqvniEhehQLgCkALDmjg2qfGiq1yhQJIaxWW1ex2qiX';
   var overlay=document.getElementById('bjk-modal-overlay');
   var iframe=document.getElementById('bjk-modal-iframe');
+  var depositEl=document.getElementById('bjk-modal-deposit');
   var title=document.getElementById('bjk-modal-title');
-  var loadCount=0, submitted=false;
+  var stage='form', stageLoadCount=0;
+
+  function switchStage(newSrc,newStage,newTitle){
+    stage=newStage;
+    stageLoadCount=0;
+    title.textContent=newTitle;
+    iframe.src=newSrc;
+  }
+
+  function showDeposit(){
+    stage='deposit';
+    title.textContent='예약이 완료되었습니다';
+    iframe.style.display='none';
+    depositEl.style.display='block';
+  }
 
   iframe.addEventListener('load',function(){
-    loadCount++;
-    if(loadCount>=2 && !submitted){
-      submitted=true;
-      title.textContent='상담 날짜 예약';
-      setTimeout(function(){ iframe.src=CAL_URL; },600);
+    if(iframe.src.indexOf('about:blank')!==-1) return;
+    stageLoadCount++;
+    if(stage==='form' && stageLoadCount>=2){
+      setTimeout(function(){ switchStage(CAL_URL,'calendar','상담 날짜 예약'); },600);
+    } else if(stage==='calendar' && stageLoadCount>=2){
+      setTimeout(showDeposit,600);
     }
   });
 
   function openModal(){
-    loadCount=0;
-    submitted=false;
+    stage='form';
+    stageLoadCount=0;
     title.textContent='1:1 진단상담 신청';
+    iframe.style.display='block';
+    depositEl.style.display='none';
     iframe.src=FORM_URL;
     overlay.style.display='flex';
     document.body.style.overflow='hidden';
