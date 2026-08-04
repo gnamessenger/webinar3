@@ -863,6 +863,9 @@ background-position: initial;
       <button id="bjk-modal-close" type="button" aria-label="닫기" style="background:none;border:none;font-size:24px;line-height:1;cursor:pointer;color:#666;padding:4px 6px;">&times;</button>
     </div>
     <iframe id="bjk-modal-iframe" src="about:blank" style="flex:1;width:100%;border:0;" title="1:1 진단상담 신청"></iframe>
+    <div id="bjk-modal-confirm-bar" style="display:none;padding:12px 18px;border-top:1px solid #eee;background:#fafafa;flex-shrink:0;text-align:center;">
+      <button id="bjk-modal-confirm-btn" type="button" style="background:#7C3AED;color:#fff;border:none;border-radius:24px;padding:12px 24px;font-weight:700;font-size:14px;cursor:pointer;">예약을 완료하셨나요? 다음 단계 보기 →</button>
+    </div>
     <div id="bjk-modal-deposit" style="display:none;flex:1;overflow-y:auto;background:#12121c;padding:28px 22px;box-sizing:border-box;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;">
       <div style="background:#1c1c2b;border:1px solid #2a2a3d;border-radius:16px;padding:24px 22px;">
         <span style="display:inline-block;background:#0fd8c9;color:#0a1a1a;font-size:13px;font-weight:800;padding:5px 14px;border-radius:20px;margin-bottom:16px;">온라인 입금</span>
@@ -883,6 +886,7 @@ background-position: initial;
   var overlay=document.getElementById('bjk-modal-overlay');
   var iframe=document.getElementById('bjk-modal-iframe');
   var depositEl=document.getElementById('bjk-modal-deposit');
+  var confirmBar=document.getElementById('bjk-modal-confirm-bar');
   var title=document.getElementById('bjk-modal-title');
   var stage='form', stageLoadCount=0;
 
@@ -891,14 +895,18 @@ background-position: initial;
     stageLoadCount=0;
     title.textContent=newTitle;
     iframe.src=newSrc;
+    confirmBar.style.display=(newStage==='calendar')?'block':'none';
   }
 
   function showDeposit(){
     stage='deposit';
     title.textContent='예약이 완료되었습니다';
     iframe.style.display='none';
+    confirmBar.style.display='none';
     depositEl.style.display='block';
   }
+
+  document.getElementById('bjk-modal-confirm-btn').addEventListener('click',showDeposit);
 
   iframe.addEventListener('load',function(){
     if(iframe.src.indexOf('about:blank')!==-1) return;
@@ -916,6 +924,7 @@ background-position: initial;
     title.textContent='1:1 진단상담 신청';
     iframe.style.display='block';
     depositEl.style.display='none';
+    confirmBar.style.display='none';
     iframe.src=FORM_URL;
     overlay.style.display='flex';
     document.body.style.overflow='hidden';
