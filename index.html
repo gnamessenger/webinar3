@@ -576,10 +576,6 @@ background-position: initial;
       el.addEventListener('click', function(e){ if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
 
       var autoPaused = false;
-      el.addEventListener('mousedown', function(){ autoPaused = true; });
-      el.addEventListener('touchstart', function(){ autoPaused = true; }, { passive: true });
-      el.addEventListener('mouseenter', function(){ autoPaused = true; });
-      el.addEventListener('mouseleave', function(){ autoPaused = false; });
       setInterval(function(){
         var max = el.scrollWidth - el.clientWidth;
         if (autoPaused) return;
