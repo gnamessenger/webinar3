@@ -453,14 +453,15 @@ background-position: initial;
 #button-YxxSNDpqNQ.bj-btn-show{display:block;animation:bjBtnFadeIn .6s ease-out;}
 @keyframes bjBtnFadeIn{0%{opacity:0;transform:translateY(8px);}100%{opacity:1;transform:translateY(0);}}
 .cbutton-YxxSNDpqNQ .main-heading-button{font-weight:900!important;font-size:22px!important;letter-spacing:-.3px!important;}
+.bjcountdown.bj-cd-hide{display:none;}
 </style>
 <div class="bjnudge">
-  <div class="bjcountdown">
+  <p><span class="em">영상을 끝까지</span> 보신 분만 아래로 내려주세요.<br>상담이 훨씬 더 의미 있어질 거예요.</p>
+  <span class="arrow">▼</span>
+  <div class="bjcountdown" id="bjCountdownBox">
     <div class="bjc-box"><span class="bjc-num" id="bjc-min">00</span><span class="bjc-lab">분</span></div>
     <div class="bjc-box"><span class="bjc-num" id="bjc-sec">10</span><span class="bjc-lab">초</span></div>
   </div>
-  <p><span class="em">영상을 끝까지</span> 보신 분만 아래로 내려주세요.<br>상담이 훨씬 더 의미 있어질 거예요.</p>
-  <span class="arrow">▼</span>
   <script>
   (function(){
     var totalSeconds = 10; /* 지나님: 최종 영상 길이에 맞춰 이 숫자(초)만 바꾸시면 됩니다. 지금은 테스트용 10초입니다 */
@@ -468,6 +469,8 @@ background-position: initial;
     var secEl = document.getElementById('bjc-sec');
     function pad(n){ return (n < 10 ? '0' : '') + n; }
     function showButton(){
+      var box = document.getElementById('bjCountdownBox');
+      if (box) box.classList.add('bj-cd-hide');
       var btn = document.getElementById('button-YxxSNDpqNQ');
       if (btn) btn.classList.add('bj-btn-show');
     }
