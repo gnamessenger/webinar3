@@ -530,6 +530,18 @@ background-position: initial;
     <div class="revcard"><img src="/reviews/r14.jpg" loading="lazy" alt="후기"></div>
     <div class="revcard"><img src="/reviews/r15.jpg" loading="lazy" alt="후기"></div>
   </div>
+  <script>
+  (function(){
+    document.querySelectorAll('.revslide, .vidgrid').forEach(function(el){
+      el.addEventListener('wheel', function(e){
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          el.scrollLeft += e.deltaY;
+          e.preventDefault();
+        }
+      }, { passive: false });
+    });
+  })();
+  </script>
   <div class="bigstat">
     <div class="l">2026년 초 약 한 달 · 개인 + 법인 합산</div>
     <div class="n">6,760만 원</div>
