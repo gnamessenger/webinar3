@@ -580,9 +580,13 @@ background-position: initial;
       el.addEventListener('touchstart', function(){ autoPaused = true; }, { passive: true });
       el.addEventListener('mouseenter', function(){ autoPaused = true; });
       el.addEventListener('mouseleave', function(){ autoPaused = false; });
+      var dbg = document.createElement('div');
+      dbg.style.cssText = 'position:absolute;z-index:9999;background:red;color:#fff;font-size:12px;padding:4px;';
+      el.parentNode.insertBefore(dbg, el);
       setInterval(function(){
-        if (autoPaused) return;
         var max = el.scrollWidth - el.clientWidth;
+        dbg.textContent = 'sw=' + el.scrollWidth + ' cw=' + el.clientWidth + ' max=' + max + ' sl=' + el.scrollLeft + ' paused=' + autoPaused;
+        if (autoPaused) return;
         if (max <= 0) return;
         if (el.scrollLeft >= max - 1) {
           el.scrollLeft = 0;
