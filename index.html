@@ -445,10 +445,35 @@ background-position: initial;
 .bjnudge .em{color:#5EEAD4;font-weight:800;}
 .bjnudge .arrow{display:block;font-size:32px;color:#5EEAD4;margin-top:16px;animation:a2 1.6s ease-in-out infinite;}
 @keyframes a2{0%,70%,100%{transform:translateY(0);opacity:.5}42%{transform:translateY(6px);opacity:1}}
+.bjcountdown{display:flex;justify-content:center;gap:10px;margin-bottom:20px;}
+.bjc-box{background:#15151c;border:1px solid rgba(94,234,212,.3);border-radius:10px;padding:10px 18px;text-align:center;min-width:56px;}
+.bjc-num{display:block;font-size:26px;font-weight:900;color:#5EEAD4;line-height:1.2;}
+.bjc-lab{display:block;font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;}
 </style>
 <div class="bjnudge">
+  <div class="bjcountdown">
+    <div class="bjc-box"><span class="bjc-num" id="bjc-min">10</span><span class="bjc-lab">분</span></div>
+    <div class="bjc-box"><span class="bjc-num" id="bjc-sec">00</span><span class="bjc-lab">초</span></div>
+  </div>
   <p><span class="em">영상을 끝까지</span> 보신 분만 아래로 내려주세요.<br>상담이 훨씬 더 의미 있어질 거예요.</p>
   <span class="arrow">▼</span>
+  <script>
+  (function(){
+    var totalSeconds = 600; /* 지나님: 최종 영상 길이에 맞춰 이 숫자(초)만 바꾸시면 됩니다 */
+    var minEl = document.getElementById('bjc-min');
+    var secEl = document.getElementById('bjc-sec');
+    function pad(n){ return (n < 10 ? '0' : '') + n; }
+    function tick(){
+      if (totalSeconds <= 0) { clearInterval(iv); minEl.textContent = '00'; secEl.textContent = '00'; return; }
+      totalSeconds--;
+      minEl.textContent = pad(Math.floor(totalSeconds / 60));
+      secEl.textContent = pad(totalSeconds % 60);
+    }
+    minEl.textContent = pad(Math.floor(totalSeconds / 60));
+    secEl.textContent = pad(totalSeconds % 60);
+    var iv = setInterval(tick, 1000);
+  })();
+  </script>
 </div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--[--><div id="image-R0qO9bU-YQ" data-animation-class style="" class="c-image c-wrapper image-R0qO9bU-YQ"><!----><!----><!----><!----><!----><div style="cursor:default;" class="image-container cimage-R0qO9bU-YQ"><div><div><picture class="hl-image-picture" style="display:block;"><source media="(max-width:900px) and (min-width: 768px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:768px) and (min-width: 640px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_768/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:640px) and (min-width: 480px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_640/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:480px) and (min-width: 320px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_768/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:320px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_320/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif" alt="" style="" class="img-effects-none hl-optimized mw-100" loading="lazy" fetchpriority="auto" data-animation-class=""></picture></div></div></div><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--[--><div id="button-YxxSNDpqNQ" data-animation-class style="" class="c-button c-wrapper button-YxxSNDpqNQ"><!----><!----><!----><!----><!----><!----><!--[--><!----><!--teleport start--><!--teleport end--><!----><!----><button data-animation-class="" id="button-YxxSNDpqNQ_btn" style="" class="cbutton-YxxSNDpqNQ custom btn-vp btn-hp  noBorder radius20 none" aria-label="1:1 진단상담 신청하기! "><div style="" class="main-heading-group"><div class="button-icon-start"></div><div class="main-heading-button">1:1 진단상담 신청하기!</div><div class="button-icon-end"></div></div><!----><div style="display:none;left:50%;position:absolute;top:50%;transform:translate(-50%, -50%);" class="btn-loader-position"><div style="display:none;" class="v-spinner"><div class="v-moon v-moon1" style="height:30px;width:30px;border-radius:100%;"><div class="v-moon v-moon2" style="height:4.285714285714286px;width:4.285714285714286px;border-radius:100%;top:12.857142857142858px;background-color:rgb(255, 255, 255);"></div><div class="v-moon v-moon3" style="height:30px;width:30px;border-radius:100%;border:4.285714285714286px solid rgb(255, 255, 255);"></div></div></div></div></button><div><!----></div><!----><!----><!--]--><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--[--><div id="custom-code-43YbwoQsEo" data-animation-class style="" class="c-custom-code c-wrapper custom-code-43YbwoQsEo"><!----><!----><!----><!----><!----><!----><!----><span></span><div id="custom-code-43YbwoQsEo__custom-code" class="custom-code-container ccustom-code-43YbwoQsEo"><style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 .bjproof *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
