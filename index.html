@@ -574,6 +574,26 @@ background-position: initial;
       el.addEventListener('touchend', up);
 
       el.addEventListener('click', function(e){ if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+
+      var autoPaused = false;
+      el.addEventListener('mousedown', function(){ autoPaused = true; });
+      el.addEventListener('touchstart', function(){ autoPaused = true; }, { passive: true });
+      el.addEventListener('mouseenter', function(){ autoPaused = true; });
+      el.addEventListener('mouseleave', function(){ autoPaused = false; });
+      function autoScroll(){
+        if (!autoPaused) {
+          var max = el.scrollWidth - el.clientWidth;
+          if (max > 0) {
+            if (el.scrollLeft >= max - 1) {
+              el.scrollLeft = 0;
+            } else {
+              el.scrollLeft += 0.6;
+            }
+          }
+        }
+        requestAnimationFrame(autoScroll);
+      }
+      requestAnimationFrame(autoScroll);
     });
   })();
   </script>
