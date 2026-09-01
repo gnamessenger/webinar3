@@ -580,20 +580,16 @@ background-position: initial;
       el.addEventListener('touchstart', function(){ autoPaused = true; }, { passive: true });
       el.addEventListener('mouseenter', function(){ autoPaused = true; });
       el.addEventListener('mouseleave', function(){ autoPaused = false; });
-      function autoScroll(){
-        if (!autoPaused) {
-          var max = el.scrollWidth - el.clientWidth;
-          if (max > 0) {
-            if (el.scrollLeft >= max - 1) {
-              el.scrollLeft = 0;
-            } else {
-              el.scrollLeft += 0.6;
-            }
-          }
+      setInterval(function(){
+        if (autoPaused) return;
+        var max = el.scrollWidth - el.clientWidth;
+        if (max <= 0) return;
+        if (el.scrollLeft >= max - 1) {
+          el.scrollLeft = 0;
+        } else {
+          el.scrollLeft += 1.2;
         }
-        requestAnimationFrame(autoScroll);
-      }
-      requestAnimationFrame(autoScroll);
+      }, 30);
     });
   })();
   </script>
