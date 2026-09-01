@@ -533,12 +533,47 @@ background-position: initial;
   <script>
   (function(){
     document.querySelectorAll('.revslide, .vidgrid').forEach(function(el){
+      el.style.cursor = 'grab';
       el.addEventListener('wheel', function(e){
         if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
           el.scrollLeft += e.deltaY;
           e.preventDefault();
         }
       }, { passive: false });
+
+      var isDown = false;
+      var startX = 0;
+      var startScroll = 0;
+      var moved = false;
+
+      function down(x){
+        isDown = true;
+        moved = false;
+        startX = x;
+        startScroll = el.scrollLeft;
+        el.style.cursor = 'grabbing';
+      }
+      function move(x){
+        if (!isDown) return;
+        var dx = x - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        el.scrollLeft = startScroll - dx;
+      }
+      function up(){
+        isDown = false;
+        el.style.cursor = 'grab';
+      }
+
+      el.addEventListener('mousedown', function(e){ down(e.pageX); e.preventDefault(); });
+      window.addEventListener('mousemove', function(e){ move(e.pageX); });
+      window.addEventListener('mouseup', up);
+      el.addEventListener('mouseleave', function(){ isDown = false; el.style.cursor = 'grab'; });
+
+      el.addEventListener('touchstart', function(e){ down(e.touches[0].pageX); }, { passive: true });
+      el.addEventListener('touchmove', function(e){ move(e.touches[0].pageX); }, { passive: true });
+      el.addEventListener('touchend', up);
+
+      el.addEventListener('click', function(e){ if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
     });
   })();
   </script>
