@@ -995,11 +995,6 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     title.textContent=newTitle;
     iframe.src=newSrc;
     if(confirmTimer){ clearTimeout(confirmTimer); confirmTimer=null; }
-    if(newStage==='calendar'){
-      confirmBar.style.display='block';
-    } else {
-      confirmBar.style.display='none';
-    }
   }
 
   function showDeposit(){
@@ -1030,7 +1025,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     title.textContent='1:1 진단상담 신청';
     iframe.style.display='block';
     depositEl.style.display='none';
-    confirmBar.style.display='none';
+    confirmBar.style.display='block';
     iframe.src=FORM_URL;
     overlay.style.display='flex';
     document.body.style.overflow='hidden';
