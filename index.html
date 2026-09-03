@@ -825,6 +825,49 @@ background-position: initial;
   </div>
 </div>
 <style>
+.bjlec{background:#000000;max-width:680px;margin:0 auto;padding:36px 0 44px;}
+.bjlec .eye{font-size:15px;font-weight:800;color:#5EEAD4;letter-spacing:.3px;margin-bottom:14px;text-align:center;}
+.bjlec .lecslide{display:flex;align-items:flex-start;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 20px 4px;margin-bottom:0}
+.bjlec .lecslide::-webkit-scrollbar{display:none}
+.bjlec .leccard{flex:0 0 auto;border-radius:10px;overflow:hidden}
+.bjlec .leccard img{height:220px;width:auto;max-width:none;display:block;border-radius:10px}
+@media(max-width:480px){.bjlec .leccard img{height:170px}}
+</style>
+<div class="bjlec">
+  <div class="eye">현장 강의 스케치</div>
+  <div class="lecslide" id="bjLecSlide">
+    <div class="leccard"><img src="/lectures/lec01.jpg" loading="lazy" alt="강의 현장"></div>
+    <div class="leccard"><img src="/lectures/lec02.jpg" loading="lazy" alt="강의 현장"></div>
+    <div class="leccard"><img src="/lectures/lec03.jpg" loading="lazy" alt="강의 현장"></div>
+    <div class="leccard"><img src="/lectures/lec04.jpg" loading="lazy" alt="강의 현장"></div>
+    <div class="leccard"><img src="/lectures/lec05.jpg" loading="lazy" alt="강의 현장"></div>
+    <div class="leccard"><img src="/lectures/lec06.jpg" loading="lazy" alt="강의 현장"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var el = document.getElementById('bjLecSlide');
+  if (!el) return;
+  el.style.cursor = 'grab';
+  var isDown = false, startX = 0, startScroll = 0, moved = false, autoPaused = false;
+  function down(x){ isDown = true; moved = false; startX = x; startScroll = el.scrollLeft; el.style.cursor = 'grabbing'; }
+  function move(x){ if (!isDown) return; var dx = x - startX; if (Math.abs(dx) > 3) moved = true; el.scrollLeft = startScroll - dx; }
+  function up(){ isDown = false; el.style.cursor = 'grab'; }
+  el.addEventListener('mousedown', function(e){ down(e.pageX); e.preventDefault(); });
+  window.addEventListener('mousemove', function(e){ move(e.pageX); });
+  window.addEventListener('mouseup', up);
+  el.addEventListener('touchstart', function(e){ down(e.touches[0].pageX); }, { passive: true });
+  el.addEventListener('touchmove', function(e){ move(e.touches[0].pageX); }, { passive: true });
+  el.addEventListener('touchend', up);
+  el.addEventListener('click', function(e){ if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+  setInterval(function(){
+    var max = el.scrollWidth - el.clientWidth;
+    if (isDown || max <= 0) return;
+    if (el.scrollLeft >= max - 1) { el.scrollLeft = 0; } else { el.scrollLeft += 1.2; }
+  }, 30);
+})();
+</script>
+<style>
 .bjnarrow *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
 .bjnarrow{max-width:680px;margin:0 auto;background:#000000;}
 .bjnarrow .sec{padding:50px 26px;}
