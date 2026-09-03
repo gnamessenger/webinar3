@@ -985,14 +985,20 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
   var depositEl=document.getElementById('bjk-modal-deposit');
   var confirmBar=document.getElementById('bjk-modal-confirm-bar');
   var title=document.getElementById('bjk-modal-title');
-  var stage='form', stageLoadCount=0;
+  var stage='form', stageLoadCount=0, confirmTimer=null;
 
   function switchStage(newSrc,newStage,newTitle){
     stage=newStage;
     stageLoadCount=0;
     title.textContent=newTitle;
     iframe.src=newSrc;
-    confirmBar.style.display=(newStage==='calendar')?'block':'none';
+    confirmBar.style.display='none';
+    if(confirmTimer){ clearTimeout(confirmTimer); confirmTimer=null; }
+    if(newStage==='calendar'){
+      confirmTimer=setTimeout(function(){
+        if(stage==='calendar'){ confirmBar.style.display='block'; }
+      }, 15000);
+    }
   }
 
   function showDeposit(){
@@ -1001,6 +1007,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     iframe.style.display='none';
     confirmBar.style.display='none';
     depositEl.style.display='block';
+    if(confirmTimer){ clearTimeout(confirmTimer); confirmTimer=null; }
   }
 
   document.getElementById('bjk-modal-confirm-btn').addEventListener('click',showDeposit);
