@@ -986,7 +986,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
   var depositEl=document.getElementById('bjk-modal-deposit');
   var confirmBar=document.getElementById('bjk-modal-confirm-bar');
   var title=document.getElementById('bjk-modal-title');
-  var stage='form', stageLoadCount=0, fallbackTimer=null, stageEnterTime=Date.now();
+  var stage='form', stageLoadCount=0, stageEnterTime=Date.now();
 
   function goToCalendar(){
     if(stage!=='form') return;
@@ -996,7 +996,6 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     title.textContent='상담 날짜 예약';
     iframe.src=CAL_URL;
     confirmBar.style.display='block';
-    if(fallbackTimer){ clearTimeout(fallbackTimer); fallbackTimer=null; }
   }
 
   function showDeposit(){
@@ -1005,7 +1004,6 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     iframe.style.display='none';
     confirmBar.style.display='none';
     depositEl.style.display='block';
-    if(fallbackTimer){ clearTimeout(fallbackTimer); fallbackTimer=null; }
   }
 
   document.getElementById('bjk-modal-confirm-btn').addEventListener('click',showDeposit);
@@ -1028,8 +1026,6 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     depositEl.style.display='none';
     confirmBar.style.display='none';
     iframe.src=FORM_URL;
-    if(fallbackTimer){ clearTimeout(fallbackTimer); }
-    fallbackTimer=setTimeout(goToCalendar,60000);
     overlay.style.display='flex';
     document.body.style.overflow='hidden';
   }
@@ -1037,7 +1033,6 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     overlay.style.display='none';
     document.body.style.overflow='';
     iframe.src='about:blank';
-    if(fallbackTimer){ clearTimeout(fallbackTimer); fallbackTimer=null; }
     stage='closed';
   }
 
