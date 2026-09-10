@@ -1203,7 +1203,15 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (v) {
       v.muted = false;
       v.removeAttribute('muted');
-      if (v.paused) { var p2 = v.play(); if (p2 && p2.catch) p2.catch(function(){}); }
+      var wjResumeTries3 = 0;
+      var wjResumeIv3 = setInterval(function(){
+        wjResumeTries3++;
+        if (v.paused) {
+          var p2 = v.play();
+          if (p2 && p2.catch) p2.catch(function(){});
+        }
+        if (wjResumeTries3 > 15) clearInterval(wjResumeIv3);
+      }, 100);
     }
     ['click','touchstart','keydown','scroll'].forEach(function(evt){
       document.removeEventListener(evt, wjUnmuteOnInteract3, true);
