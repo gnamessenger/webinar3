@@ -1198,6 +1198,10 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (wjTicks > 75) clearInterval(wjIv);
   }, 400);
 
+  var wjOverlay3 = document.createElement('div');
+  wjOverlay3.style.cssText = 'position:fixed;inset:0;z-index:999999;background:transparent;';
+  document.body.appendChild(wjOverlay3);
+
   function wjUnmuteOnInteract3(){
     var v = document.getElementById('bjVideoStep3');
     if (v) {
@@ -1213,13 +1217,12 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
         if (wjResumeTries3 > 15) clearInterval(wjResumeIv3);
       }, 100);
     }
-    ['click','touchstart','keydown','scroll'].forEach(function(evt){
-      document.removeEventListener(evt, wjUnmuteOnInteract3, true);
-    });
+    if (wjOverlay3.parentNode) wjOverlay3.parentNode.removeChild(wjOverlay3);
+    document.removeEventListener('keydown', wjUnmuteOnInteract3, true);
   }
-  ['click','touchstart','keydown','scroll'].forEach(function(evt){
-    document.addEventListener(evt, wjUnmuteOnInteract3, true);
-  });
+  wjOverlay3.addEventListener('click', wjUnmuteOnInteract3);
+  wjOverlay3.addEventListener('touchstart', wjUnmuteOnInteract3, {passive:true});
+  document.addEventListener('keydown', wjUnmuteOnInteract3, true);
 })();
 </script>
 <script>
