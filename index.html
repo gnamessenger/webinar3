@@ -1180,11 +1180,23 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     native.parentNode.insertBefore(wrap, native);
     wjAttach(document.getElementById('bjVideoStep3'));
   }
+  var wjAutoplayed3 = false;
+  function wjAutoplay3(){
+    var v = document.getElementById('bjVideoStep3');
+    if (!v || wjAutoplayed3) return;
+    v.muted = true;
+    v.setAttribute('muted', '');
+    var p = v.play();
+    if (p && p.catch) p.catch(function(){});
+    wjAutoplayed3 = true;
+  }
   wjEnsureVideo();
+  wjAutoplay3();
   var wjTicks = 0;
   var wjIv = setInterval(function(){
     wjTicks++;
     wjEnsureVideo();
+    wjAutoplay3();
     if (wjTicks > 75) clearInterval(wjIv);
   }, 400);
 })();
@@ -1207,7 +1219,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
   var wjBox = document.createElement('div');
   wjBox.id = 'wj-cta-timer';
   wjBox.style.cssText = 'position:absolute;z-index:9998;display:inline-flex;align-items:center;gap:8px;background:#15151c;border:1px solid rgba(94,234,212,.3);border-radius:10px;padding:10px 18px;font-family:"Pretendard","Apple SD Gothic Neo",sans-serif;box-sizing:border-box;pointer-events:none;';
-  wjBox.innerHTML = '<span style="color:rgba(255,255,255,.6);font-size:13px;">신청 준비까지</span>' +
+  wjBox.innerHTML = '<span style="font-size:15px;">🔑</span><span style="color:rgba(255,255,255,.6);font-size:13px;">신청 준비까지</span>' +
     '<span id="wj-cta-timer-num" style="color:#5EEAD4;font-weight:900;font-size:18px;">' + wjFormat(WJ_SECONDS) + '</span>';
   document.body.appendChild(wjBox);
   var wjNumEl = wjBox.querySelector('#wj-cta-timer-num');
