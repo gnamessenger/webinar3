@@ -1160,32 +1160,33 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
 </script>
 <script>
 (function(){
-  try{document.body.insertAdjacentHTML('afterbegin','<div id="wj-debug-marker" style="position:fixed;top:0;left:0;background:red;color:#fff;z-index:99999;padding:6px;font-size:22px;">WJDEBUG-RAN</div>');}catch(e){}
-  function wjInjectVideo(){
+  var wjMaxTime = 0;
+  function wjAttach(v){
+    v.addEventListener('timeupdate', function(){
+      if (!v.seeking && v.currentTime > wjMaxTime) wjMaxTime = v.currentTime;
+    });
+    v.addEventListener('seeking', function(){
+      if (v.currentTime > wjMaxTime + 0.75) v.currentTime = wjMaxTime;
+    });
+    v.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  }
+  function wjEnsureVideo(){
     var native = document.getElementById('video-auF24ADIcJ');
-    if (!native || document.getElementById('bjVideoStep3')) return !!document.getElementById('bjVideoStep3');
+    if (!native) return;
+    if (document.getElementById('bjVideoStep3')) return;
     var wrap = document.createElement('div');
     wrap.style.cssText = 'background:#000;padding:0 24px 30px;max-width:680px;margin:0 auto;box-sizing:border-box;';
     wrap.innerHTML = '<video id="bjVideoStep3" controls controlsList="nodownload noplaybackrate" disablePictureInPicture playsinline style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;" preload="metadata"><source src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" type="video/mp4"></video>';
     native.parentNode.insertBefore(wrap, native);
-    var v = document.getElementById('bjVideoStep3');
-    var maxTime = 0;
-    v.addEventListener('timeupdate', function(){
-      if (!v.seeking && v.currentTime > maxTime) maxTime = v.currentTime;
-    });
-    v.addEventListener('seeking', function(){
-      if (v.currentTime > maxTime + 0.75) v.currentTime = maxTime;
-    });
-    v.addEventListener('contextmenu', function(e){ e.preventDefault(); });
-    return true;
+    wjAttach(document.getElementById('bjVideoStep3'));
   }
-  if (!wjInjectVideo()) {
-    var wjTries = 0;
-    var wjIv = setInterval(function(){
-      wjTries++;
-      if (wjInjectVideo() || wjTries > 60) clearInterval(wjIv);
-    }, 200);
-  }
+  wjEnsureVideo();
+  var wjTicks = 0;
+  var wjIv = setInterval(function(){
+    wjTicks++;
+    wjEnsureVideo();
+    if (wjTicks > 75) clearInterval(wjIv);
+  }, 400);
 })();
 </script>
 </body></html>
