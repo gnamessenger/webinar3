@@ -1160,6 +1160,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
 </script>
 <script>
 (function(){
+  try{document.body.insertAdjacentHTML('afterbegin','<div id="wj-debug-marker" style="position:fixed;top:0;left:0;background:red;color:#fff;z-index:99999;padding:6px;font-size:22px;">WJDEBUG-RAN</div>');}catch(e){}
   function wjInjectVideo(){
     var native = document.getElementById('video-auF24ADIcJ');
     if (!native || document.getElementById('bjVideoStep3')) return !!document.getElementById('bjVideoStep3');
