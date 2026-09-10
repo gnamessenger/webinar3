@@ -1202,23 +1202,26 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
   }
 
-  function wjEnsureBox(){
-    var btnWrap = document.getElementById('button-4BLxhSrIDZ');
-    if (!btnWrap) return null;
-    var box = document.getElementById('wj-cta-timer');
-    if (!box) {
-      box = document.createElement('div');
-      box.id = 'wj-cta-timer';
-      box.style.cssText = 'max-width:680px;margin:0 auto 14px;padding:0 24px;box-sizing:border-box;text-align:center;font-family:"Pretendard","Apple SD Gothic Neo",sans-serif;';
-      btnWrap.parentNode.insertBefore(box, btnWrap);
-    }
-    if (!document.getElementById('wj-cta-timer-num')) {
-      box.innerHTML = '<div style="display:inline-flex;align-items:center;gap:8px;background:#15151c;border:1px solid rgba(94,234,212,.3);border-radius:10px;padding:10px 18px;">' +
-        '<span style="color:rgba(255,255,255,.6);font-size:13px;">신청 준비까지</span>' +
-        '<span id="wj-cta-timer-num" style="color:#5EEAD4;font-weight:900;font-size:18px;">' + wjFormat(WJ_SECONDS) + '</span>' +
-        '</div>';
-    }
-    return box;
+  // Body-level overlay (outside the framework-managed tree) so it can never be
+  // wiped by the page's own re-render passes - only ever positioned via JS.
+  var wjBox = document.createElement('div');
+  wjBox.id = 'wj-cta-timer';
+  wjBox.style.cssText = 'position:absolute;z-index:9998;display:inline-flex;align-items:center;gap:8px;background:#15151c;border:1px solid rgba(94,234,212,.3);border-radius:10px;padding:10px 18px;font-family:"Pretendard","Apple SD Gothic Neo",sans-serif;box-sizing:border-box;pointer-events:none;';
+  wjBox.innerHTML = '<span style="color:rgba(255,255,255,.6);font-size:13px;">신청 준비까지</span>' +
+    '<span id="wj-cta-timer-num" style="color:#5EEAD4;font-weight:900;font-size:18px;">' + wjFormat(WJ_SECONDS) + '</span>';
+  document.body.appendChild(wjBox);
+  var wjNumEl = wjBox.querySelector('#wj-cta-timer-num');
+
+  function wjPositionBox(){
+    var btn = document.getElementById('button-4BLxhSrIDZ_btn');
+    if (!btn) { wjBox.style.display = 'none'; return; }
+    var r = btn.getBoundingClientRect();
+    if (r.width === 0 && r.height === 0) { wjBox.style.display = 'none'; return; }
+    wjBox.style.display = wjUnlocked ? 'none' : 'inline-flex';
+    var top = r.top + window.scrollY - wjBox.offsetHeight - 12;
+    var left = r.left + window.scrollX + (r.width - wjBox.offsetWidth) / 2;
+    wjBox.style.top = top + 'px';
+    wjBox.style.left = left + 'px';
   }
 
   function wjApplyLock(){
@@ -1244,26 +1247,23 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
   }
 
   function wjTick(){
-    wjEnsureBox();
     var remain = Math.max(0, Math.round((wjEndAt - Date.now()) / 1000));
-    var numEl = document.getElementById('wj-cta-timer-num');
-    if (numEl) numEl.textContent = wjFormat(remain);
-    if (remain <= 0 && !wjUnlocked) {
-      wjUnlocked = true;
-      var box = document.getElementById('wj-cta-timer');
-      if (box) box.style.display = 'none';
-    }
+    if (wjNumEl) wjNumEl.textContent = wjFormat(remain);
+    if (remain <= 0 && !wjUnlocked) wjUnlocked = true;
     wjApplyLock();
+    wjPositionBox();
   }
 
   wjTick();
+  window.addEventListener('scroll', wjPositionBox, {passive:true});
+  window.addEventListener('resize', wjPositionBox);
   var wjCtaIv = setInterval(function(){
     wjTick();
     if (wjUnlocked) {
-      var wjTicks2 = (wjCtaIv._wjTicks = (wjCtaIv._wjTicks || 0) + 1);
-      if (wjTicks2 > 30) clearInterval(wjCtaIv);
+      wjBox._wjTicks = (wjBox._wjTicks || 0) + 1;
+      if (wjBox._wjTicks > 10) clearInterval(wjCtaIv);
     }
-  }, 500);
+  }, 300);
 })();
 </script>
 </body></html>
