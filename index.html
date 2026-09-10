@@ -1210,11 +1210,13 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
       box = document.createElement('div');
       box.id = 'wj-cta-timer';
       box.style.cssText = 'max-width:680px;margin:0 auto 14px;padding:0 24px;box-sizing:border-box;text-align:center;font-family:"Pretendard","Apple SD Gothic Neo",sans-serif;';
+      btnWrap.parentNode.insertBefore(box, btnWrap);
+    }
+    if (!document.getElementById('wj-cta-timer-num')) {
       box.innerHTML = '<div style="display:inline-flex;align-items:center;gap:8px;background:#15151c;border:1px solid rgba(94,234,212,.3);border-radius:10px;padding:10px 18px;">' +
         '<span style="color:rgba(255,255,255,.6);font-size:13px;">신청 준비까지</span>' +
         '<span id="wj-cta-timer-num" style="color:#5EEAD4;font-weight:900;font-size:18px;">' + wjFormat(WJ_SECONDS) + '</span>' +
         '</div>';
-      btnWrap.parentNode.insertBefore(box, btnWrap);
     }
     return box;
   }
