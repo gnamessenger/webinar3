@@ -1180,15 +1180,13 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     native.parentNode.insertBefore(wrap, native);
     wjAttach(document.getElementById('bjVideoStep3'));
   }
-  var wjAutoplayed3 = false;
   function wjAutoplay3(){
     var v = document.getElementById('bjVideoStep3');
-    if (!v || wjAutoplayed3) return;
+    if (!v || (!v.paused && !v.ended)) return;
     v.muted = true;
     v.setAttribute('muted', '');
     var p = v.play();
     if (p && p.catch) p.catch(function(){});
-    wjAutoplayed3 = true;
   }
   wjEnsureVideo();
   wjAutoplay3();
@@ -1199,6 +1197,21 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     wjAutoplay3();
     if (wjTicks > 75) clearInterval(wjIv);
   }, 400);
+
+  function wjUnmuteOnInteract3(){
+    var v = document.getElementById('bjVideoStep3');
+    if (v) {
+      v.muted = false;
+      v.removeAttribute('muted');
+      if (v.paused) { var p2 = v.play(); if (p2 && p2.catch) p2.catch(function(){}); }
+    }
+    ['click','touchstart','keydown','scroll'].forEach(function(evt){
+      document.removeEventListener(evt, wjUnmuteOnInteract3, true);
+    });
+  }
+  ['click','touchstart','keydown','scroll'].forEach(function(evt){
+    document.addEventListener(evt, wjUnmuteOnInteract3, true);
+  });
 })();
 </script>
 <script>
