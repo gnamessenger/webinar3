@@ -1180,34 +1180,13 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     native.parentNode.insertBefore(wrap, native);
     wjAttach(document.getElementById('bjVideoStep3'));
   }
-  function wjAutoplay3(){
-    var v = document.getElementById('bjVideoStep3');
-    if (!v || (!v.paused && !v.ended)) return;
-    v.muted = true;
-    v.setAttribute('muted', '');
-    var p = v.play();
-    if (p && p.catch) p.catch(function(){});
-  }
   wjEnsureVideo();
-  wjAutoplay3();
   var wjTicks = 0;
   var wjIv = setInterval(function(){
     wjTicks++;
     wjEnsureVideo();
-    wjAutoplay3();
     if (wjTicks > 75) clearInterval(wjIv);
   }, 400);
-
-  function wjUnmute3(){
-    var v = document.getElementById('bjVideoStep3');
-    if (v) v.muted = false;
-    document.removeEventListener('click', wjUnmute3, true);
-    document.removeEventListener('touchend', wjUnmute3, true);
-    document.removeEventListener('keydown', wjUnmute3, true);
-  }
-  document.addEventListener('click', wjUnmute3, true);
-  document.addEventListener('touchend', wjUnmute3, true);
-  document.addEventListener('keydown', wjUnmute3, true);
 })();
 </script>
 <script>
