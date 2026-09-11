@@ -1176,7 +1176,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (document.getElementById('bjVideoStep3')) return;
     var wrap = document.createElement('div');
     wrap.style.cssText = 'background:#000;padding:0 24px 30px;max-width:680px;margin:0 auto;box-sizing:border-box;';
-    wrap.innerHTML = '<video id="bjVideoStep3" disablePictureInPicture playsinline style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;" preload="metadata"><source src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" type="video/mp4"></video>';
+    wrap.innerHTML = '<video id="bjVideoStep3" controls controlsList="nodownload noplaybackrate" disablePictureInPicture playsinline style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;" preload="metadata"><source src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" type="video/mp4"></video>';
     native.parentNode.insertBefore(wrap, native);
     wjAttach(document.getElementById('bjVideoStep3'));
   }
@@ -1211,8 +1211,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     overlay.innerHTML =
       '<div style="width:72px;height:72px;border-radius:50%;background:rgba(220,38,38,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.45);">' +
         '<div style="width:0;height:0;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:22px solid #fff;margin-left:6px;"></div>' +
-      '</div>' +
-      '<div style="background:rgba(0,0,0,.55);color:#fff;font-weight:800;font-size:15px;padding:8px 18px;border-radius:24px;white-space:nowrap;">지금 바로 재생하기</div>';
+      '</div>';
     wrap.appendChild(overlay);
     wjSyncPos();
     setTimeout(wjSyncPos, 200);
