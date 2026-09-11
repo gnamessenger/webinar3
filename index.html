@@ -1176,7 +1176,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (document.getElementById('bjVideoStep3')) return;
     var wrap = document.createElement('div');
     wrap.style.cssText = 'background:#000;padding:0 24px 30px;max-width:680px;margin:0 auto;box-sizing:border-box;';
-    wrap.innerHTML = '<video id="bjVideoStep3" controls controlsList="nodownload noplaybackrate" disablePictureInPicture playsinline style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;" preload="metadata"><source src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" type="video/mp4"></video>';
+    wrap.innerHTML = '<video id="bjVideoStep3" disablePictureInPicture playsinline style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;" preload="metadata"><source src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" type="video/mp4"></video>';
     native.parentNode.insertBefore(wrap, native);
     wjAttach(document.getElementById('bjVideoStep3'));
   }
