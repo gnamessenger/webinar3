@@ -1185,17 +1185,28 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (!v) return;
     var wrap = v.parentElement;
     if (!wrap) return;
-    if (wrap.querySelector('.wj-play-overlay')) return;
+    var existing = wrap.querySelector('.wj-play-overlay');
+    if (existing) {
+      var vr2 = v.getBoundingClientRect();
+      var wr2 = wrap.getBoundingClientRect();
+      existing.style.top = (vr2.top - wr2.top) + 'px';
+      existing.style.left = (vr2.left - wr2.left) + 'px';
+      existing.style.width = vr2.width + 'px';
+      existing.style.height = vr2.height + 'px';
+      return;
+    }
     var cs = getComputedStyle(wrap);
     if (cs.position === 'static') wrap.style.position = 'relative';
     var overlay = document.createElement('div');
     overlay.className = 'wj-play-overlay';
     overlay.style.cssText = 'position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;z-index:10;';
     function wjSyncPos(){
-      overlay.style.top = v.offsetTop + 'px';
-      overlay.style.left = v.offsetLeft + 'px';
-      overlay.style.width = v.offsetWidth + 'px';
-      overlay.style.height = v.offsetHeight + 'px';
+      var vr = v.getBoundingClientRect();
+      var wr = wrap.getBoundingClientRect();
+      overlay.style.top = (vr.top - wr.top) + 'px';
+      overlay.style.left = (vr.left - wr.left) + 'px';
+      overlay.style.width = vr.width + 'px';
+      overlay.style.height = vr.height + 'px';
     }
     overlay.innerHTML =
       '<div style="width:72px;height:72px;border-radius:50%;background:rgba(220,38,38,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.45);">' +
@@ -1204,6 +1215,9 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
       '<div style="background:rgba(0,0,0,.55);color:#fff;font-weight:800;font-size:15px;padding:8px 18px;border-radius:24px;white-space:nowrap;">지금 바로 재생하기</div>';
     wrap.appendChild(overlay);
     wjSyncPos();
+    setTimeout(wjSyncPos, 200);
+    setTimeout(wjSyncPos, 800);
+    v.addEventListener('loadedmetadata', wjSyncPos);
     overlay.addEventListener('click', function(){
       var p = v.play();
       if (p && p.catch) p.catch(function(){});
