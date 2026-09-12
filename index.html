@@ -1061,6 +1061,10 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     e.stopImmediatePropagation();
     openModal();
   },true);
+
+  if (location.hash === '#test-deposit') {
+    setTimeout(function(){ openModal(); showDeposit(); }, 300);
+  }
 })();</script>
 <style>
 .bjfoot{background:#000;border-top:1px solid #232228;padding:28px 24px 34px;max-width:680px;margin:0 auto;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;}
