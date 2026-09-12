@@ -1028,6 +1028,17 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     }
   });
 
+  function buildPrefilledFormUrl(){
+    var params=new URLSearchParams(window.location.search);
+    var name=params.get('wjname');
+    var phone=params.get('wjphone');
+    var email=params.get('wjemail');
+    var url=FORM_URL;
+    if(name) url+='&entry.190185620='+encodeURIComponent(name);
+    if(phone) url+='&entry.465795657='+encodeURIComponent(phone);
+    if(email) url+='&entry.2012915602='+encodeURIComponent(email);
+    return url;
+  }
   function openModal(){
     stage='form';
     stageLoadCount=0;
@@ -1037,7 +1048,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     depositEl.style.display='none';
     depositEl.style.flex='1';
     confirmBar.style.display='none';
-    iframe.src=FORM_URL;
+    iframe.src=buildPrefilledFormUrl();
     overlay.style.display='flex';
     document.body.style.overflow='hidden';
     var modalBox=document.getElementById('bjk-modal-box');
