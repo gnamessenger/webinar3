@@ -1271,7 +1271,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     wjBox.style.left = left + 'px';
   }
 
-  function wjApplyLock(){
+  function wjApplyLock(remain){
     var btn = document.getElementById('button-4BLxhSrIDZ_btn');
     if (!btn) return;
     if (wjOriginalText === null) {
@@ -1289,7 +1289,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
       btn.style.opacity = '.5';
       btn.style.filter = 'grayscale(.5)';
       var label3 = btn.querySelector('.main-heading-button');
-      if (label3) label3.textContent = '🔒 잠시 후 신청 가능';
+      if (label3) label3.textContent = '🔑 ' + wjFormat(remain);
     }
   }
 
@@ -1297,7 +1297,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     var remain = Math.max(0, Math.round((wjEndAt - Date.now()) / 1000));
     if (wjNumEl) wjNumEl.textContent = wjFormat(remain);
     if (remain <= 0 && !wjUnlocked) wjUnlocked = true;
-    wjApplyLock();
+    wjApplyLock(remain);
     wjPositionBox();
   }
 
