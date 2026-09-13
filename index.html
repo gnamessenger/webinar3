@@ -502,7 +502,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
       minEl.textContent = pad(Math.floor(remain / 60));
       secEl.textContent = pad(Math.floor(remain % 60));
     }
-    updateDisplay(300);
+    updateDisplay(480);
     var wjVideoAttachedA = false;
     function attachVideoA(){
       if (wjVideoAttachedA) return;
@@ -1290,7 +1290,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
   var WJ_FALLBACK_SECONDS = 1200; /* 안전장치: 영상 종료(ended) 이벤트가 기술적 문제로 안 잡힐 경우를 대비해 넉넉하게 20분 뒤 강제 해제 */
   var wjOriginalText = null;
   var wjUnlockedB = false;
-  var wjRemainB = 300;
+  var wjRemainB = 480;
 
   function wjFormat(sec){
     var m = Math.floor(sec / 60);
