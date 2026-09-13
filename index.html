@@ -1197,7 +1197,14 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (!native) return;
     if (document.getElementById('bjVideoStep3')) return;
     var wrap = document.createElement('div');
+    wrap.className = 'wj-video-wrap';
     wrap.style.cssText = 'background:#000;padding:0 24px 30px;max-width:680px;margin:0 auto;box-sizing:border-box;';
+    if (!document.getElementById('wj-video-wrap-style')) {
+      var wjVideoStyle = document.createElement('style');
+      wjVideoStyle.id = 'wj-video-wrap-style';
+      wjVideoStyle.textContent = '@media screen and (max-width:480px){.wj-video-wrap{padding:0 6px 20px!important;}}';
+      document.head.appendChild(wjVideoStyle);
+    }
     wrap.innerHTML = '<video id="bjVideoStep3" controls controlsList="nodownload noplaybackrate" disablePictureInPicture playsinline style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;" preload="metadata"><source src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" type="video/mp4"></video>';
     native.parentNode.insertBefore(wrap, native);
     wjAttach(document.getElementById('bjVideoStep3'));
