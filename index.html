@@ -1224,11 +1224,23 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
       wjVideoStyle.textContent = '@media screen and (max-width:480px){.wj-video-wrap{padding:0 6px 20px!important;}}.wj-speedbtn3{position:absolute;top:10px;right:34px;z-index:20;background:rgba(13,148,136,.9);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}';
       document.head.appendChild(wjVideoStyle);
     }
-    wrap.innerHTML = '<button id="wjSpeedBtn3" class="wj-speedbtn3" type="button">1x</button><video id="bjVideoStep3" controls controlsList="nodownload" disablePictureInPicture playsinline preload="metadata" src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;"></video>';
+    wrap.innerHTML = '<button id="wjSpeedBtn3" class="wj-speedbtn3" type="button">1x</button><video id="bjVideoStep3" controlsList="nodownload" disablePictureInPicture playsinline preload="metadata" src="https://15.164.114.161.sslip.io/videos/webinar2.mp4" style="width:100%;aspect-ratio:16/9;border-radius:14px;display:block;background:#000;"></video>';
     native.parentNode.insertBefore(wrap, native);
     var wjVideo3 = document.getElementById('bjVideoStep3');
     wjAttach(wjVideo3);
-    if (wjVideo3 && wjVideo3.load) wjVideo3.load();
+    var wjControls3Enabled = false;
+    function wjEnableControls3(){
+      if (wjControls3Enabled) return;
+      wjControls3Enabled = true;
+      wjVideo3.controls = true;
+    }
+    if (wjVideo3.readyState >= 1) {
+      wjEnableControls3();
+    } else {
+      wjVideo3.addEventListener('loadedmetadata', wjEnableControls3, { once: true });
+      setTimeout(wjEnableControls3, 3000);
+    }
+    if (wjVideo3.load) wjVideo3.load();
     var wjSpeeds3 = [1, 1.5, 2];
     var wjSpeedIdx3 = 0;
     var wjSpeedBtn3 = document.getElementById('wjSpeedBtn3');
