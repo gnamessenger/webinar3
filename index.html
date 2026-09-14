@@ -484,46 +484,26 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
   </div>
   <script>
   (function(){
-    var WJ_FALLBACK_SECONDS = 1200; /* 안전장치: 영상 종료(ended) 이벤트가 기술적 문제로 안 잡힐 경우를 대비해 넉넉하게 20분 뒤 강제 해제 */
+    var totalSeconds = 660; /* 실제 영상 8분 + 3분 여유 = 11분. 모든 손님에게 동일하게 적용되는 오픈 시간 */
     var minEl = document.getElementById('bjc-min');
     var secEl = document.getElementById('bjc-sec');
     function pad(n){ return (n < 10 ? '0' : '') + n; }
-    var wjUnlockedA = false;
     function showButton(){
-      if (wjUnlockedA) return;
-      wjUnlockedA = true;
       var box = document.getElementById('bjCountdownBox');
       if (box) box.classList.add('bj-cd-hide');
       var btn = document.getElementById('button-YxxSNDpqNQ');
       if (btn) btn.classList.add('bj-btn-show');
     }
-    function updateDisplay(remain){
-      if (remain < 0) remain = 0;
-      minEl.textContent = pad(Math.floor(remain / 60));
-      secEl.textContent = pad(Math.floor(remain % 60));
+    function tick(){
+      if (totalSeconds <= 0) { clearInterval(iv); minEl.textContent = '00'; secEl.textContent = '00'; showButton(); return; }
+      totalSeconds--;
+      minEl.textContent = pad(Math.floor(totalSeconds / 60));
+      secEl.textContent = pad(totalSeconds % 60);
+      if (totalSeconds <= 0) { showButton(); }
     }
-    updateDisplay(480);
-    var wjVideoAttachedA = false;
-    function attachVideoA(){
-      if (wjVideoAttachedA) return;
-      var v = document.getElementById('bjVideoStep3');
-      if (!v) return;
-      wjVideoAttachedA = true;
-      v.addEventListener('timeupdate', function(){
-        if (wjUnlockedA || !v.duration || isNaN(v.duration)) return;
-        updateDisplay(v.duration - v.currentTime);
-      });
-      v.addEventListener('ended', function(){
-        updateDisplay(0);
-        showButton();
-      });
-    }
-    var wjEndAtA = Date.now() + WJ_FALLBACK_SECONDS * 1000;
-    var iv = setInterval(function(){
-      if (wjUnlockedA) { clearInterval(iv); return; }
-      attachVideoA();
-      if (Date.now() >= wjEndAtA) showButton();
-    }, 300);
+    minEl.textContent = pad(Math.floor(totalSeconds / 60));
+    secEl.textContent = pad(totalSeconds % 60);
+    var iv = setInterval(tick, 1000);
   })();
   </script>
 </div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--[--><div id="image-R0qO9bU-YQ" data-animation-class style="" class="c-image c-wrapper image-R0qO9bU-YQ"><!----><!----><!----><!----><!----><div style="cursor:default;" class="image-container cimage-R0qO9bU-YQ"><div><div><picture class="hl-image-picture" style="display:block;"><source media="(max-width:900px) and (min-width: 768px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:768px) and (min-width: 640px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_768/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:640px) and (min-width: 480px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_640/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:480px) and (min-width: 320px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_768/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><source media="(max-width:320px)" srcset="https://images.leadconnectorhq.com/image/f_webp/q_80/r_320/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif"><img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/GCZ6sONbNtxuG0ZGjWK7/media/6a41bad5c492ddc24ce3f870.gif" alt="" style="" class="img-effects-none hl-optimized mw-100" loading="lazy" fetchpriority="auto" data-animation-class=""></picture></div></div></div><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--]--></div><!----><!----><!----><!----><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--[--><div id="button-YxxSNDpqNQ" data-animation-class style="" class="c-button c-wrapper button-YxxSNDpqNQ"><!----><!----><!----><!----><!----><!----><!--[--><!----><!--teleport start--><!--teleport end--><!----><!----><button data-animation-class="" id="button-YxxSNDpqNQ_btn" style="" class="cbutton-YxxSNDpqNQ custom btn-vp btn-hp  noBorder radius20 none" aria-label="1:1 진단상담 신청하기 "><div style="" class="main-heading-group"><div class="button-icon-start"></div><div class="main-heading-button">1:1 진단상담 신청하기</div><div class="button-icon-end"></div></div><!----><div style="display:none;left:50%;position:absolute;top:50%;transform:translate(-50%, -50%);" class="btn-loader-position"><div style="display:none;" class="v-spinner"><div class="v-moon v-moon1" style="height:30px;width:30px;border-radius:100%;"><div class="v-moon v-moon2" style="height:4.285714285714286px;width:4.285714285714286px;border-radius:100%;top:12.857142857142858px;background-color:rgb(255, 255, 255);"></div><div class="v-moon v-moon3" style="height:30px;width:30px;border-radius:100%;border:4.285714285714286px solid rgb(255, 255, 255);"></div></div></div></div></button><div><!----></div><!----><!----><!--]--><span></span><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></div><!--]--><!--[--><div id="custom-code-43YbwoQsEo" data-animation-class style="" class="c-custom-code c-wrapper custom-code-43YbwoQsEo"><!----><!----><!----><!----><!----><!----><!----><span></span><div id="custom-code-43YbwoQsEo__custom-code" class="custom-code-container ccustom-code-43YbwoQsEo"><style>
@@ -1287,25 +1267,25 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
 </script>
 <script>
 (function(){
-  var WJ_FALLBACK_SECONDS = 1200; /* 안전장치: 영상 종료(ended) 이벤트가 기술적 문제로 안 잡힐 경우를 대비해 넉넉하게 20분 뒤 강제 해제 */
+  var WJ_SECONDS = 660; /* 실제 영상 8분 + 3분 여유 = 11분 */
+  var wjEndAt = Date.now() + WJ_SECONDS * 1000;
   var wjOriginalText = null;
-  var wjUnlockedB = false;
-  var wjRemainB = 480;
+  var wjUnlocked = false;
 
   function wjFormat(sec){
     var m = Math.floor(sec / 60);
-    var s = Math.floor(sec % 60);
+    var s = sec % 60;
     return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
   }
 
-  function wjApplyLock(){
+  function wjApplyLock(remain){
     var btn = document.getElementById('button-4BLxhSrIDZ_btn');
     if (!btn) return;
     if (wjOriginalText === null) {
       var label = btn.querySelector('.main-heading-button');
       wjOriginalText = label ? label.textContent : '1:1 진단상담 신청하기';
     }
-    if (wjUnlockedB) {
+    if (wjUnlocked) {
       btn.style.pointerEvents = '';
       btn.style.opacity = '';
       btn.style.filter = '';
@@ -1316,37 +1296,21 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
       btn.style.opacity = '.5';
       btn.style.filter = 'grayscale(.5)';
       var label3 = btn.querySelector('.main-heading-button');
-      if (label3) label3.textContent = '🔑 영상 시청 완료 후 오픈 (남은 시간 ' + wjFormat(wjRemainB) + ')';
+      if (label3) label3.textContent = '🔑 1:1진단상담 신청 오픈 ' + wjFormat(remain);
     }
   }
 
-  function wjUnlockB(){
-    if (wjUnlockedB) return;
-    wjUnlockedB = true;
-    wjApplyLock();
+  function wjTick(){
+    var remain = Math.max(0, Math.round((wjEndAt - Date.now()) / 1000));
+    if (remain <= 0 && !wjUnlocked) wjUnlocked = true;
+    wjApplyLock(remain);
   }
 
-  var wjVideoAttachedB = false;
-  function attachVideoB(){
-    if (wjVideoAttachedB) return;
-    var v = document.getElementById('bjVideoStep3');
-    if (!v) return;
-    wjVideoAttachedB = true;
-    v.addEventListener('timeupdate', function(){
-      if (wjUnlockedB || !v.duration || isNaN(v.duration)) return;
-      wjRemainB = Math.max(0, v.duration - v.currentTime);
-      wjApplyLock();
-    });
-    v.addEventListener('ended', wjUnlockB);
-  }
-
-  wjApplyLock();
-  var wjEndAtB = Date.now() + WJ_FALLBACK_SECONDS * 1000;
+  wjTick();
   var wjCtaTicks = 0;
   var wjCtaIv = setInterval(function(){
-    attachVideoB();
-    if (!wjUnlockedB && Date.now() >= wjEndAtB) wjUnlockB();
-    if (wjUnlockedB) {
+    wjTick();
+    if (wjUnlocked) {
       wjCtaTicks++;
       if (wjCtaTicks > 10) clearInterval(wjCtaIv);
     }
