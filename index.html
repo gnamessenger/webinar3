@@ -503,21 +503,13 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
       secEl.textContent = pad(Math.floor(remain % 60));
     }
     updateDisplay(240);
-    var wjVideoAttachedA = false;
+    /* 영상 엘리먼트가 페이지 렌더링 중 교체될 수 있어(리스너가 죽음), 이벤트 대신 매번 현재 엘리먼트의 재생 위치를 읽는다 */
     function attachVideoA(){
-      if (wjVideoAttachedA) return;
       var v = document.getElementById('bjVideoStep3');
       if (!v) return;
-      wjVideoAttachedA = true;
-      v.addEventListener('timeupdate', function(){
-        if (wjUnlockedA) return;
-        updateDisplay(Math.ceil(WJ_UNLOCK_SECONDS - v.currentTime));
-        if (v.currentTime >= WJ_UNLOCK_SECONDS) showButton();
-      });
-      v.addEventListener('ended', function(){
-        updateDisplay(0);
-        showButton();
-      });
+      var t = v.currentTime || 0;
+      updateDisplay(Math.ceil(WJ_UNLOCK_SECONDS - t));
+      if (t >= WJ_UNLOCK_SECONDS || v.ended) showButton();
     }
     var wjEndAtA = Date.now() + WJ_FALLBACK_SECONDS * 1000;
     var iv = setInterval(function(){
@@ -1351,19 +1343,15 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     wjApplyLock();
   }
 
-  var wjVideoAttachedB = false;
+  /* 영상 엘리먼트가 페이지 렌더링 중 교체될 수 있어(리스너가 죽음), 이벤트 대신 매번 현재 엘리먼트의 재생 위치를 읽는다 */
   function attachVideoB(){
-    if (wjVideoAttachedB) return;
+    if (wjUnlockedB) return;
     var v = document.getElementById('bjVideoStep3');
     if (!v) return;
-    wjVideoAttachedB = true;
-    v.addEventListener('timeupdate', function(){
-      if (wjUnlockedB) return;
-      wjRemainB = Math.max(0, Math.ceil(WJ_UNLOCK_SECONDS - v.currentTime));
-      if (v.currentTime >= WJ_UNLOCK_SECONDS) { wjUnlockB(); return; }
-      wjApplyLock();
-    });
-    v.addEventListener('ended', wjUnlockB);
+    var t = v.currentTime || 0;
+    wjRemainB = Math.max(0, Math.ceil(WJ_UNLOCK_SECONDS - t));
+    if (t >= WJ_UNLOCK_SECONDS || v.ended) { wjUnlockB(); return; }
+    wjApplyLock();
   }
 
   wjApplyLock();
