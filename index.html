@@ -477,14 +477,14 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
 .bjcountdown.bj-cd-hide{display:none;}
 </style>
 <div class="bjnudge">
-  <p style="margin-bottom:14px;">영상을 끝까지 보셔야 1:1 진단상담 신청이 열립니다</p>
+  <p style="margin-bottom:14px;">영상을 4분 이상 보셔야 1:1 진단상담 신청이 열립니다</p>
   <div class="bjcountdown" id="bjCountdownBox">
-    <div class="bjc-box"><span class="bjc-num" id="bjc-min">00</span><span class="bjc-lab">분</span></div>
-    <div class="bjc-box"><span class="bjc-num" id="bjc-sec">10</span><span class="bjc-lab">초</span></div>
+    <div class="bjc-box"><span class="bjc-num" id="bjc-min">04</span><span class="bjc-lab">분</span></div>
+    <div class="bjc-box"><span class="bjc-num" id="bjc-sec">00</span><span class="bjc-lab">초</span></div>
   </div>
   <script>
   (function(){
-    var WJ_FALLBACK_SECONDS = 660; /* 안전장치: 영상 종료(ended) 이벤트가 기술적 문제로 안 잡힐 경우 대비. 실제 영상 8분 + 여유 = 11분 */
+    var WJ_UNLOCK_SECONDS = 240; /* 영상 4분 시청 시 CTA 오픈 (영상 자체는 약 8분) */ var WJ_FALLBACK_SECONDS = 360; /* 안전장치: timeupdate 이벤트가 기술적 문제로 안 잡힐 경우 대비. 4분 + 여유 = 6분 */
     var minEl = document.getElementById('bjc-min');
     var secEl = document.getElementById('bjc-sec');
     function pad(n){ return (n < 10 ? '0' : '') + n; }
@@ -502,7 +502,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
       minEl.textContent = pad(Math.floor(remain / 60));
       secEl.textContent = pad(Math.floor(remain % 60));
     }
-    updateDisplay(492);
+    updateDisplay(240);
     var wjVideoAttachedA = false;
     function attachVideoA(){
       if (wjVideoAttachedA) return;
@@ -510,8 +510,9 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
       if (!v) return;
       wjVideoAttachedA = true;
       v.addEventListener('timeupdate', function(){
-        if (wjUnlockedA || !v.duration || isNaN(v.duration)) return;
-        updateDisplay(v.duration - v.currentTime);
+        if (wjUnlockedA) return;
+        updateDisplay(Math.ceil(WJ_UNLOCK_SECONDS - v.currentTime));
+        if (v.currentTime >= WJ_UNLOCK_SECONDS) showButton();
       });
       v.addEventListener('ended', function(){
         updateDisplay(0);
@@ -1311,10 +1312,10 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
 </script>
 <script>
 (function(){
-  var WJ_FALLBACK_SECONDS = 660; /* 안전장치: 영상 종료(ended) 이벤트가 기술적 문제로 안 잡힐 경우 대비. 실제 영상 8분 + 여유 = 11분 */
+  var WJ_UNLOCK_SECONDS = 240; /* 영상 4분 시청 시 CTA 오픈 (영상 자체는 약 8분) */ var WJ_FALLBACK_SECONDS = 360; /* 안전장치: timeupdate 이벤트가 기술적 문제로 안 잡힐 경우 대비. 4분 + 여유 = 6분 */
   var wjOriginalText = null;
   var wjUnlockedB = false;
-  var wjRemainB = 492;
+  var wjRemainB = 240;
 
   function wjFormat(sec){
     var m = Math.floor(sec / 60);
@@ -1340,7 +1341,7 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
       btn.style.opacity = '.5';
       btn.style.filter = 'grayscale(.5)';
       var label3 = btn.querySelector('.main-heading-button');
-      if (label3) label3.textContent = '🔑 영상 시청 완료 후 오픈 (남은 시간 ' + wjFormat(wjRemainB) + ')';
+      if (label3) label3.textContent = '🔑 영상 4분 시청 후 오픈 (남은 시간 ' + wjFormat(wjRemainB) + ')';
     }
   }
 
@@ -1357,8 +1358,9 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
     if (!v) return;
     wjVideoAttachedB = true;
     v.addEventListener('timeupdate', function(){
-      if (wjUnlockedB || !v.duration || isNaN(v.duration)) return;
-      wjRemainB = Math.max(0, v.duration - v.currentTime);
+      if (wjUnlockedB) return;
+      wjRemainB = Math.max(0, Math.ceil(WJ_UNLOCK_SECONDS - v.currentTime));
+      if (v.currentTime >= WJ_UNLOCK_SECONDS) { wjUnlockB(); return; }
       wjApplyLock();
     });
     v.addEventListener('ended', wjUnlockB);
