@@ -981,8 +981,9 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     </div>
     <iframe id="bjk-modal-iframe" src="about:blank" style="flex:1;width:100%;border:0;" title="1:1 진단상담 신청"></iframe>
     <div id="bjk-modal-confirm-bar" style="display:none;padding:12px 18px;border-top:1px solid #eee;background:#fafafa;flex-shrink:0;text-align:center;">
-      <div style="font-size:13px;color:#666;margin-bottom:8px;">※ 반드시 위에서 캘린더 예약을 완료하신 후에 눌러주세요</div>
-      <button id="bjk-modal-confirm-btn" type="button" style="background:#5EEAD4;color:#fff;border:none;border-radius:24px;padding:12px 24px;font-weight:700;font-size:14px;cursor:pointer;">캘린더 예약 다 하셨다면!? 결제 안내 보기 →</button>
+      <div style="font-size:13px;color:#666;margin-bottom:8px;">※ 위에서 날짜·시간을 고르고 '예약'까지 누르셨나요?</div>
+      <div id="bjk-modal-wait" style="font-size:13px;color:#999;padding:10px 0;">⏳ <span id="bjk-modal-wait-sec">30</span>초 뒤 아래 버튼이 열려요</div>
+      <button id="bjk-modal-confirm-btn" type="button" style="display:none;background:#5EEAD4;color:#fff;border:none;border-radius:24px;padding:12px 24px;font-weight:700;font-size:14px;cursor:pointer;">예약 완료했어요 → 입금 안내 보기</button>
     </div>
     <div id="bjk-modal-deposit" style="display:none;flex:1;overflow-y:auto;background:#12121c;padding:28px 22px;box-sizing:border-box;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;">
       <div style="background:#1c1c2b;border:1px solid #2a2a3d;border-radius:16px;padding:24px 22px;">
@@ -1008,6 +1009,24 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
   var confirmBar=document.getElementById('bjk-modal-confirm-bar');
   var title=document.getElementById('bjk-modal-title');
   var stage='form', stageLoadCount=0, stageEnterTime=Date.now();
+  var confirmBtn=document.getElementById('bjk-modal-confirm-btn');
+  var waitEl=document.getElementById('bjk-modal-wait');
+  var waitSecEl=document.getElementById('bjk-modal-wait-sec');
+  var BTN_DELAY_SEC=30, btnTimer=null;
+  function stopBtnTimer(){ if(btnTimer){ clearInterval(btnTimer); btnTimer=null; } }
+  function startBtnTimer(){
+    stopBtnTimer();
+    var left=BTN_DELAY_SEC;
+    confirmBtn.style.display='none';
+    waitEl.style.display='block';
+    waitSecEl.textContent=left;
+    btnTimer=setInterval(function(){
+      if(stage!=='calendar'){ stopBtnTimer(); return; }
+      left--;
+      waitSecEl.textContent=left;
+      if(left<=0){ stopBtnTimer(); waitEl.style.display='none'; confirmBtn.style.display='inline-block'; }
+    },1000);
+  }
 
   function goToCalendar(){
     if(stage!=='form') return;
@@ -1017,9 +1036,11 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     title.textContent='상담 날짜 예약';
     iframe.src=CAL_URL;
     confirmBar.style.display='block';
+    startBtnTimer();
   }
 
   function showDeposit(){
+    stopBtnTimer();
     stage='deposit';
     title.textContent='예약이 완료되었습니다';
     iframe.style.display='none';
@@ -1053,6 +1074,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     return url;
   }
   function openModal(){
+    stopBtnTimer();
     stage='form';
     stageLoadCount=0;
     stageEnterTime=Date.now();
@@ -1068,6 +1090,7 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
     if(modalBox){ modalBox.style.height='90vh'; modalBox.style.maxHeight='760px'; }
   }
   function closeModal(){
+    stopBtnTimer();
     overlay.style.display='none';
     document.body.style.overflow='';
     iframe.src='about:blank';
