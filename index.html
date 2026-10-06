@@ -422,7 +422,68 @@ h1 .hl,h2 .hl{display:inline!important;color:#0c0a13!important;background:#5EEAD
 .bjproof .revcard,.bjproof .vidcard,.bjnarrow .item,.bjcurri .item,.bjlec .leccard,.bjteacher .cred,.bjs2 .mini,.bjbonus .item{transition:transform .2s ease,box-shadow .2s ease!important;}
 .bjproof .vidcard:hover,.bjnarrow .item:hover,.bjcurri .item:not(.locked):hover,.bjteacher .cred:hover,.bjs2 .mini:hover{transform:translateY(-3px)!important;box-shadow:0 10px 24px rgba(0,0,0,.35)!important;}
 .bj-cycle-glow{border-color:#5EEAD4!important;box-shadow:0 0 0 1px #5EEAD4,0 8px 22px rgba(94,234,212,.25)!important;}
-</style></head><body><div id="bj-cursor-glow" style="position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:99998;mix-blend-mode:screen;background:radial-gradient(600px circle at var(--bjmx,50%) var(--bjmy,50%),rgba(94,234,212,.16),transparent 45%);transition:opacity .3s ease;opacity:0;"></div><script>(function(){var g=null,raf=null;function ready(){g=document.getElementById('bj-cursor-glow');if(!g)return;document.addEventListener('mousemove',function(e){if(raf)return;raf=requestAnimationFrame(function(){document.documentElement.style.setProperty('--bjmx',e.clientX+'px');document.documentElement.style.setProperty('--bjmy',e.clientY+'px');g.style.opacity='1';raf=null;});},{passive:true});document.addEventListener('mouseleave',function(){g.style.opacity='0';});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ready);}else{ready();}})();</script><script>(function(){
+</style><!-- space-bg start --><style id="bj-space-css">
+/* 우주 배경 (550 1:1마스터) - 검은 우주 + 성운 빛 + 별 캔버스. 움직이는 건 별만 */
+html{background:#05060D!important}
+html body,html .bgCover,html .bg-fixed{background:transparent!important;background-color:transparent!important}
+html body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(60% 42% at 88% 6%,rgba(94,234,212,.13),transparent 70%),
+    radial-gradient(48% 38% at 4% 38%,rgba(125,85,199,.14),transparent 70%),
+    radial-gradient(70% 48% at 50% 104%,rgba(13,148,136,.16),transparent 70%),
+    radial-gradient(90% 60% at 50% 50%,rgba(20,24,52,.35),transparent 80%),
+    #05060D}
+#bj-stars{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:-1;pointer-events:none;display:block}
+/* 3단계: 검은 섹션을 투명하게, 어두운 카드는 반투명. 밝은 섹션(bjs1·bjs2·bjteacher·bjhow)과 신청 팝업(#bjk-modal-*)은 그대로 */
+html body #section-J8_IR2PEn,html body .bjhero,html body .wj-video-wrap,html body .bjnudge,html body .bjproof,html body .bjstory,
+html body .bjcurri,html body .bjvid2,html body .bjlec,html body .bjnarrow,html body .bjfoot{background:transparent!important;background-color:transparent!important}
+html body .bjproof .card,html body .bjproof .vidcard,html body .bjvid2 .vidcard,html body .bjstory .box,
+html body .bjcurri .item,html body .bjnarrow .item{background:rgba(18,18,28,.76)!important}
+html body .bjcurri .item.locked{background:rgba(14,14,20,.6)!important}
+/* 밝은 섹션은 색 그대로, 모서리만 둥글게 해서 우주 배경 위 카드처럼 */
+html body .bjs1{border-radius:18px 18px 0 0}
+html body .bjs2{border-radius:0 0 18px 18px}
+html body .bjteacher,html body .bjhow{border-radius:18px}
+</style><script id="bj-space-js">
+/* 우주 배경 별: 반짝임 + 가끔 별똥별. 움직임 줄이기 설정이면 정지. 클릭 막지 않음(pointer-events:none) */
+(function(){
+  var c=document.createElement('canvas');c.id='bj-stars';c.setAttribute('aria-hidden','true');
+  function boot(){ if(!document.body||document.getElementById('bj-stars'))return; document.body.insertBefore(c,document.body.firstChild); start(); }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+  function start(){
+    var ctx=c.getContext('2d');if(!ctx)return;
+    var dpr=Math.min(window.devicePixelRatio||1,2),W=0,H=0,stars=[],shoot=null;
+    var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var COL={white:'255,255,255',teal:'127,240,222',violet:'190,170,240'};
+    function size(force){
+      var w=c.clientWidth,h=c.clientHeight;
+      if(!force&&w===W&&Math.abs(h-H)<160)return false; /* 모바일 주소창 높이 변화로 별이 다시 뿌려지지 않게 */
+      W=w;H=h;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+      var n=Math.min(700,Math.round(W*H/3400));stars=[];
+      for(var i=0;i<n;i++){var r=Math.random();stars.push({x:Math.random()*W,y:Math.random()*H,
+        r:r<.05?1.1+Math.random()*.5:.35+Math.random()*.65,a:.3+Math.random()*.6,s:.4+Math.random()*1.3,p:Math.random()*6.28,
+        t:Math.random()<.13?'teal':Math.random()<.06?'violet':'white'});}
+      return true;
+    }
+    function draw(t){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<stars.length;i++){var s=stars[i],a=still?s.a:s.a*(.55+.45*Math.sin(t*s.s+s.p));
+        ctx.beginPath();ctx.fillStyle='rgba('+COL[s.t]+','+a.toFixed(3)+')';ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fill();}
+    }
+    function frame(ms){
+      draw(ms/1000);
+      if(!shoot&&Math.random()<.003)shoot={x:Math.random()*W*.7+W*.25,y:Math.random()*H*.35,life:0};
+      if(shoot){shoot.life++;var L=shoot.life,x=shoot.x-L*9,y=shoot.y+L*4.5,g=ctx.createLinearGradient(x,y,x+90,y-45);
+        g.addColorStop(0,'rgba(255,255,255,'+Math.max(0,.85-L/40)+')');g.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.strokeStyle=g;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+90,y-45);ctx.stroke();if(L>40)shoot=null;}
+      requestAnimationFrame(frame);
+    }
+    size(true);
+    window.addEventListener('resize',function(){if(size(false)&&still)draw(0);});
+    if(still)draw(0);else requestAnimationFrame(frame);
+  }
+})();
+</script><!-- space-bg end --></head><body><div id="bj-cursor-glow" style="position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:99998;mix-blend-mode:screen;background:radial-gradient(600px circle at var(--bjmx,50%) var(--bjmy,50%),rgba(94,234,212,.16),transparent 45%);transition:opacity .3s ease;opacity:0;"></div><script>(function(){var g=null,raf=null;function ready(){g=document.getElementById('bj-cursor-glow');if(!g)return;document.addEventListener('mousemove',function(e){if(raf)return;raf=requestAnimationFrame(function(){document.documentElement.style.setProperty('--bjmx',e.clientX+'px');document.documentElement.style.setProperty('--bjmy',e.clientY+'px');g.style.opacity='1';raf=null;});},{passive:true});document.addEventListener('mouseleave',function(){g.style.opacity='0';});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ready);}else{ready();}})();</script><script>(function(){
   function start(){
     var items = document.querySelectorAll('.bjcurri .item:not(.locked)');
     if (!items.length) return;
