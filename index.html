@@ -1046,7 +1046,7 @@ html body .bjteacher,html body .bjhow{border-radius:18px}
     <iframe id="bjk-modal-iframe" src="about:blank" style="flex:1;width:100%;border:0;" title="1:1 진단상담 신청"></iframe>
     <div id="bjk-modal-confirm-bar" style="display:none;padding:12px 18px;border-top:1px solid #eee;background:#fafafa;flex-shrink:0;text-align:center;">
       <div style="font-size:13px;color:#666;margin-bottom:8px;">※ 위에서 날짜·시간을 고르고 '예약'까지 누르셨나요?</div>
-      <div id="bjk-modal-wait" style="font-size:13px;color:#999;padding:10px 0;">⏳ <span id="bjk-modal-wait-sec">30</span>초 뒤 아래 버튼이 열려요</div>
+      <div id="bjk-modal-wait" style="font-size:13px;color:#999;padding:10px 0;">⏳ <span id="bjk-modal-wait-sec">3</span>초 뒤 아래 버튼이 열려요</div>
       <button id="bjk-modal-confirm-btn" type="button" style="display:none;background:#5EEAD4;color:#fff;border:none;border-radius:24px;padding:12px 24px;font-weight:700;font-size:14px;cursor:pointer;">예약 완료했어요 → 입금 안내 보기</button>
     </div>
     <div id="bjk-modal-deposit" style="display:none;flex:1;overflow-y:auto;background:#12121c;padding:28px 22px;box-sizing:border-box;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;">
@@ -1077,7 +1077,7 @@ html body .bjteacher,html body .bjhow{border-radius:18px}
   var confirmBtn=document.getElementById('bjk-modal-confirm-btn');
   var waitEl=document.getElementById('bjk-modal-wait');
   var waitSecEl=document.getElementById('bjk-modal-wait-sec');
-  var BTN_DELAY_SEC=30, btnTimer=null;
+  var BTN_DELAY_SEC=3, btnTimer=null;
   function stopBtnTimer(){ if(btnTimer){ clearInterval(btnTimer); btnTimer=null; } }
   function startBtnTimer(){
     stopBtnTimer();
