@@ -1462,4 +1462,34 @@ document.getElementById('bj-privacy-modal').addEventListener('click',function(e)
   }, 300);
 })();
 </script>
+<script>
+/* 11/17 신청 뒤 재기: 특강 영상 시청 기록 — 시작·50%·끝까지 각 1번 메타 픽셀 맞춤 이벤트(이름·연락처는 안 보냄)
+   영상 칸이 화면 그리는 중 바뀔 수 있어 이벤트 대신 1초마다 지금 영상의 재생 위치를 읽음(버튼 열림 코드와 같은 방식) */
+(function(){
+  var VIDEO_ID = 'bjVideoStep3', PAGE = 'webinar3';
+  var sent = {};
+  var q; try { q = new URLSearchParams(location.search); } catch(e){ q = null; }
+  function tag(k){ var v = q && q.get(k); return v ? String(v).slice(0, 60) : ''; }
+  var extra = { video: PAGE };
+  if (tag('utm_content')) extra.utm_content = tag('utm_content');
+  if (tag('utm_campaign')) extra.utm_campaign = tag('utm_campaign');
+  if (tag('from')) extra.from = tag('from');
+  function fire(name){
+    if (sent[name]) return; sent[name] = true;
+    try { console.log('[시청 기록]', name, extra); } catch(e){}
+    try { if (typeof fbq === 'function') fbq('trackCustom', name, extra); } catch(e){}
+  }
+  var iv = setInterval(function(){
+    var v = document.getElementById(VIDEO_ID);
+    if (!v) return;
+    var t = v.currentTime || 0, d = v.duration;
+    if (t >= 1) fire('VideoStart');
+    if (d && isFinite(d) && d > 0){
+      if (t / d >= 0.5) fire('Video50');
+      if (v.ended || t >= d - 2) fire('VideoComplete');
+    } else if (v.ended) { fire('VideoComplete'); }
+    if (sent.VideoComplete) clearInterval(iv);
+  }, 1000);
+})();
+</script>
 </body></html>
