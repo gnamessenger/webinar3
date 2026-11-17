@@ -1,4 +1,32 @@
 <!DOCTYPE html><html  lang="en"><head><meta charset="utf-8"><meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"><title>웨비나3</title>
+<!-- 11/17 개인정보 보호: 이름·연락처·이메일(wjname·wjphone·wjemail)을 메타 픽셀보다 먼저 주소에서 지움.
+     주소의 '?' 또는 '#' 뒤에 있으면 sessionStorage(이 탭 안에만 남는 임시 보관함)로 옮기고 history.replaceState로 주소에서 삭제.
+     from·utm 등 다른 꼬리표는 그대로 둠. 이후 코드는 window.WJ_CONTACT 또는 sessionStorage 'wj_contact'에서 읽음. -->
+<script>
+(function(){
+  var K=['wjname','wjphone','wjemail'];
+  try{
+    var u=new URL(location.href), got={}, changed=false;
+    var h=new URLSearchParams(u.hash.replace(/^#/,''));
+    K.forEach(function(k){
+      var v=u.searchParams.get(k); if(!v) v=h.get(k);
+      if(u.searchParams.has(k)){ u.searchParams.delete(k); changed=true; }
+      if(h.has(k)){ h.delete(k); changed=true; }
+      if(v) got[k]=String(v).slice(0,200);
+    });
+    if(changed){
+      var hs=h.toString();
+      history.replaceState(history.state,'',u.pathname+u.search+(hs?'#'+hs:''));
+    }
+    if(Object.keys(got).length){
+      window.WJ_CONTACT=got;
+      try{ sessionStorage.setItem('wj_contact',JSON.stringify(got)); }catch(e){}
+    } else {
+      try{ window.WJ_CONTACT=JSON.parse(sessionStorage.getItem('wj_contact')||'null'); }catch(e){ window.WJ_CONTACT=null; }
+    }
+  }catch(e){}
+})();
+</script>
 <!-- Facebook Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -1135,10 +1163,11 @@ html body .bjteacher,html body .bjhow{border-radius:18px}
   });
 
   function buildPrefilledFormUrl(){
-    var params=new URLSearchParams(window.location.search);
-    var name=params.get('wjname');
-    var phone=params.get('wjphone');
-    var email=params.get('wjemail');
+    // 11/17: 주소 대신 맨 위 스크립트가 옮겨 둔 보관함(WJ_CONTACT)에서 읽음
+    var wc=window.WJ_CONTACT||{};
+    var name=wc.wjname;
+    var phone=wc.wjphone;
+    var email=wc.wjemail;
     var url=FORM_URL;
     if(name) url+='&entry.190185620='+encodeURIComponent(name);
     if(phone) url+='&entry.465795657='+encodeURIComponent(phone);
