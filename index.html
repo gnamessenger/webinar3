@@ -580,18 +580,19 @@ html body .bjteacher,html body .bjhow{border-radius:18px}
     var wjUnlockedA = false;
     function showButton(){
       if (wjUnlockedA) return;
+      var btn = document.getElementById('button-YxxSNDpqNQ');
+      if (!btn) return; /* 11/23: 이 스크립트가 버튼보다 먼저 실행돼 못 찾으면 잠금 표시하지 않고 다시 시도 */
       wjUnlockedA = true;
       var box = document.getElementById('bjCountdownBox');
       if (box) box.classList.add('bj-cd-hide');
-      var btn = document.getElementById('button-YxxSNDpqNQ');
-      if (btn) btn.classList.add('bj-btn-show');
+      btn.classList.add('bj-btn-show');
     }
     function updateDisplay(remain){
       if (remain < 0) remain = 0;
       minEl.textContent = pad(Math.floor(remain / 60));
       secEl.textContent = pad(Math.floor(remain % 60));
     }
-    updateDisplay(0); showButton();
+    updateDisplay(0); showButton(); document.addEventListener('DOMContentLoaded', showButton);
     /* 영상 엘리먼트가 페이지 렌더링 중 교체될 수 있어(리스너가 죽음), 이벤트 대신 매번 현재 엘리먼트의 재생 위치를 읽는다 */
     function attachVideoA(){
       var v = document.getElementById('bjVideoStep3');
